@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manfaat Buah Mangga - KTH Jakarta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: rgb(0, 128, 85);
+            --secondary-color: #81C784;
+            --accent-color: #FFC107;
+            --dark-color: #143416;
+            --light-color: #E8F5E9;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .main-wrapper.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 100%;
+            flex: 1;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 10px 0;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-image: url('assets/images/logo_kth.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        .content {
+            width: 100%;
+            padding: 40px 20px;
+            background-color: var(--light-color);
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .content h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .content h3 {
+    color: #226b24;
+    margin-top: 20px;
+    font-size: 23px;
+    text-align: center;
+}
+
+        .content img {
+            width: 500px;
+            height: 250px;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            display: block;
+            border: 2px solid var(--primary-color);
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            text-align: justify;
+            width: 1250px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            width: fit-content;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dot-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 10000;
+        }
+
+        .dot-spinner__wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-spinner__dot {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .dot-spinner__dot:nth-child(2) { animation-delay: 0.1s; }
+        .dot-spinner__dot:nth-child(3) { animation-delay: 0.2s; }
+        .dot-spinner__dot:nth-child(4) { animation-delay: 0.3s; }
+        .dot-spinner__dot:nth-child(5) { animation-delay: 0.4s; }
+        .dot-spinner__dot:nth-child(6) { animation-delay: 0.5s; }
+        .dot-spinner__dot:nth-child(7) { animation-delay: 0.6s; }
+        .dot-spinner__dot:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes bounce {
+            to { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .logo-text h1 {
+                font-size: 18px;
+            }
+            .logo-text span {
+                font-size: 14px;
+            }
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            .header-container {
+                padding: 10px;
+            }
+            .content {
+                padding: 20px 10px;
+            }
+            .content h1 {
+                font-size: 1.5rem;
+            }
+            .content p {
+                font-size: 14px;
+            }
+            .content img {
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 10px 5px;
+            }
+            .logo-section {
+                justify-content: center;
+                text-align: center;
+            }
+            .logo-text {
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .logo {
+                margin: 0 auto 5px;
+            }
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+            .content img {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dot-spinner">
+        <div class="dot-spinner__wrapper">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img class="logo" src="/assets/image/kepala-dinas.png" alt="Logo" />
+                    </div>
+                    <div class="logo-text">
+                        <h1>Kelompok Tani Hutan Jakarta</h1>
+                        <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="content">
+                <h1>Manfaat Hutan Mangrove</h1>
+                <img src="file:///C:/xampp/htdocs/khayla/tugas/picoy/image/mangrove.jpg" alt="Buah Mangga">
+                <h3>Pengertian Hutan Mangrove</h3>
+                <p>Hutan Mangrove atau bakau merupakan hutan yang tumbuh di air payau yang dipengaruhi oleh pasang-surut air laut. Manfaat hutan mangrove memengaruhi ekosistem pesisir pantai, laut, hingga daratan.
+                Atau bisa disebut Ekosistem hutan yang tumbuh di daerah pesisir pantai tropis dan subtropis, khususnya di daerah pasang surut yang terpengaruh oleh air laut. Hutan ini didominasi oleh pohon-pohon mangrove (bakau) yang memiliki kemampuan khusus untuk hidup di lingkungan yang asin dan berlumpur.
+                </p>
+                <h3>Manfaat Hutan Mangrove</h3>
+                <p>Manfaat hutan mangrove secara umum adalah sebagai paru-paru dunia, sumber ekonomi, habitat flora dan fauna, hingga pengendali bencana. Biasanya hutan mangrove didominasi oleh tumbuhan berkayu dan tumbuh di sepanjang garis pantai dan subtropis. Manfaat hutan mangrove tak kalah penting dari hutan hujan tropis
+                    untuk ekosistem berkelanjutan. Pentingnya manfaat hutan mangrove membuat pelestarian ekosistem ini perlu diperhatikan dan dikembangkan.
+                </p>
+                <h3>Penyerap Karbon</h3>
+                <p>Mangrove dapat menyerap karbon 20x lebih banyak dibandingkan hutan hujan tropis. Indonesia memiliki hutan bakau seluas 3.1 juta hektar yang menyimpan sepertiga cadangan karbon di dunia.</p>
+                <h3>Ekonomi</h3>
+                <p>Pohon bakau yang ditanam menghasilkan buah yang merupakan makanan Macaca fascicularis/Monyet Ekor Panjang yang tinggal di area mangrove ini. Contoh buah yang dapat dimakan oleh Monyet Ekor Panjang adalah buah dari pohon Sonneratia (Pidada). Buah Pidada dapat dijadikan minuman sirup dan juga makanan dodol.</p>
+                <h3>Habitat Satwa</h3>
+                <p>Tak hanya Macaca fascicularis/Monyet Ekor Panjang yang dapat dijumpai di Kawasan Mangrove Angke Kapuk namun juga ular, biawak, buaya, kura-kura, burung-burung penghuni hutan mangrove.</p>
+                <a href="/pages/tahukah.html" class="back-button">Kembali ke Tahukah Kamu?</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota DKI Jakarta</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.querySelector('.dot-spinner');
+            const mainWrapper = document.querySelector('.main-wrapper');
+
+            window.addEventListener('load', function() {
+                loader.style.display = 'flex';
+                setTimeout(function() {
+                    loader.style.opacity = '0';
+                    loader.style.transition = 'opacity 0.5s ease';
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                        mainWrapper.classList.add('loaded');
+                    }, 500);
+                }, 300);
+            });
+
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.hostname === window.location.hostname) {
+                        loader.style.display = 'flex';
+                        loader.style.opacity = '1';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

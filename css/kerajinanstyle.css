@@ -1,0 +1,293 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+/* Variabel Warna */
+:root {
+    --primary-color: #2E7D32;
+    --secondary-color: #81C784;
+    --accent-color: #FFC107;
+    --dark-color: #143416;
+    --light-color: #E8F5E9;
+    --white: #FFFFFF;
+    --text-dark: #333333;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--light-color);
+    color: var(--text-dark);
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh; /* Ensure body is at least full viewport height */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+}
+
+.container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1; /* Allow container to grow and push footer down */
+}
+
+/* Header Styling - Sesuai dengan halaman home KTH */
+header {
+    background-color: var(--dark-color);
+    color: var(--white);
+    padding: 10px 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.imglogo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.logo-text h1 {
+    font-size: 1.2rem;
+    margin: 0px;
+    font-weight: bold;
+    color: var(--white);
+}
+
+.logo-text span {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+}
+
+
+.banner {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    position: relative;
+    overflow: hidden;
+    height: 180px;
+    background-image: url('assets/images/banner_background.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 30px;
+    margin: 0 auto;
+    background-color: rgb(0, 128, 85);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.banner-image {
+position: fixed;
+top: 0;
+left: 0;
+width: 100vw;
+height: 100vh;
+object-fit: cover;
+z-index: -1;
+}
+
+.banner-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 10px 40px;
+    text-align: center;
+    border: 1px solid #A5D6A7;
+    z-index: 10;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
+
+.banner-title h2 {
+    margin: 0;
+    font-size: 40px;
+    color: #2E7D32;
+}
+
+.products {
+    margin-top: 30px;
+}
+
+.product-item {
+    display: flex;
+    margin-bottom: 30px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #777;
+    padding: 10px;
+    border-radius: 30px;
+    margin: 15px;
+}
+
+.product-info {
+    flex: 1;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-name {
+    font-size: 22px;
+    color: #2E7D32;
+    margin: 0 0 10px;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1B5E20;
+    margin: 0 0 15px;
+}
+
+.product-description {
+    color: #555;
+    margin: 0 0 20px;
+    line-height: 1.6;
+}
+
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: rgb(0, 128, 85);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.back-button:hover {
+    background-color: #388E3C;
+}
+
+.links {
+    color: blue;
+    text-decoration: none;
+}
+.links:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: #143416;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
+    margin-top: auto; /* Push footer to bottom */
+    left: 0;
+    right: 0;
+}
+
+/* Slide-up animation for main content */
+.main-wrapper {
+    opacity: 0; /* Initial state: hidden */
+    transform: translateY(50px); /* Start below */
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; /* Smooth transition */
+}
+
+.main-wrapper.loaded {
+    opacity: 1; /* Final state: fully visible */
+    transform: translateY(0); /* Slide to original position */
+}
+
+.dot-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 10000;
+}
+.dot-spinner__wrapper {
+    display: flex;
+    gap: 8px;
+}
+.dot-spinner__dot {
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+}
+.dot-spinner__dot:nth-child(2) { animation-delay: 0.1s; }
+.dot-spinner__dot:nth-child(3) { animation-delay: 0.2s; }
+.dot-spinner__dot:nth-child(4) { animation-delay: 0.3s; }
+.dot-spinner__dot:nth-child(5) { animation-delay: 0.4s; }
+.dot-spinner__dot:nth-child(6) { animation-delay: 0.5s; }
+.dot-spinner__dot:nth-child(7) { animation-delay: 0.6s; }
+.dot-spinner__dot:nth-child(8) { animation-delay: 0.7s; }
+@keyframes bounce {
+    to { transform: translateY(-10px); }
+}
+
+@media (max-width: 768px) {
+    .product-item {
+        flex-direction: column;
+    }
+    .product-image {
+        width: auto;
+        height: 200px;
+        margin: 15px 15px 0;
+    }
+}

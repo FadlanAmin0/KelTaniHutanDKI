@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manfaat Buah Mangga - KTH Jakarta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: rgb(0, 128, 85);
+            --secondary-color: #81C784;
+            --accent-color: #FFC107;
+            --dark-color: #143416;
+            --light-color: #E8F5E9;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .main-wrapper.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 100%;
+            flex: 1;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 10px 0;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-image: url('assets/images/logo_kth.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        .content {
+            width: 100%;
+            padding: 40px 20px;
+            background-color: var(--light-color);
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .content h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .content h3 {
+    color: #226b24;
+    margin-top: 20px;
+    font-size: 23px;
+    text-align: center;
+}
+
+        .content img {
+            width: 500px;
+            height: 250px;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            display: block;
+            border: 2px solid var(--primary-color);
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            text-align: justify;
+            width: 1250px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .back-button {
+            display: block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            width: fit-content;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dot-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 10000;
+        }
+
+        .dot-spinner__wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-spinner__dot {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .dot-spinner__dot:nth-child(2) { animation-delay: 0.1s; }
+        .dot-spinner__dot:nth-child(3) { animation-delay: 0.2s; }
+        .dot-spinner__dot:nth-child(4) { animation-delay: 0.3s; }
+        .dot-spinner__dot:nth-child(5) { animation-delay: 0.4s; }
+        .dot-spinner__dot:nth-child(6) { animation-delay: 0.5s; }
+        .dot-spinner__dot:nth-child(7) { animation-delay: 0.6s; }
+        .dot-spinner__dot:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes bounce {
+            to { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            .logo-text h1 {
+                font-size: 18px;
+            }
+            .logo-text span {
+                font-size: 14px;
+            }
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            .header-container {
+                padding: 10px;
+            }
+            .content {
+                padding: 20px 10px;
+            }
+            .content h1 {
+                font-size: 1.5rem;
+            }
+            .content p {
+                font-size: 14px;
+            }
+            .content img {
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 10px 5px;
+            }
+            .logo-section {
+                justify-content: center;
+                text-align: center;
+            }
+            .logo-text {
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .logo {
+                margin: 0 auto 5px;
+            }
+            
+            .content img {
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dot-spinner">
+        <div class="dot-spinner__wrapper">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img class="logo" src="/assets/image/kepala-dinas.png" alt="Logo" />
+                    </div>
+                    <div class="logo-text">
+                        <h1>Kelompok Tani Hutan Jakarta</h1>
+                        <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="content">
+                <h1>Ekonomi Sirkular</h1>
+                <img src="https://i.pinimg.com/736x/af/40/3f/af403fae5b0a4b9343a7034ea07e9d87.jpg" alt="Buah Mangga">
+                <h3>Pengertian Ekonomi Sirkular</h3>
+                <p>Ekonomi Sirkular merupakan suatu konsep ekonomi yang bertujuan untuk menghasilkan pertumbuhan ekonomi dengan mempertahankan nilai produk, bahan, dan sumber daya dalam perekonomian selama mungkin, sehingga meminimalkan kerusakan sosial dan lingkungan yang disebabkan oleh pendekatan ekonomi lama yang linier. Aktivitas Ekonomi Sirkular difokuskan pada 5R: Reduce, Reuse, Recycle, Refurbish, dan Renew.
+                </p>
+                <h3>Pendekatan Sirkular yang terdiri dari 5R:</h3>
+                <p><strong>Reduce:</strong></p>
+                    <p>Menghilangkan limbah dalam rantai produksi dan suplai (seperti pencetakan 3D). Virtualisasi produk dan jasa (seperti buku elektronik). Mengurangi penggunaan energi (seperti memperbaiki efisiensi energi). Mendesain ulang produk agar menggunakan input lebih sedikit (seperti penggunaan baja kuat di konstruksi).</p>
+                <p><strong>Reuse:</strong></p>
+                    <p>Menggunakan bersama-sama aset yang ada (seperti rumah, mobil, dan peralatan lainnya). Penggunaan barang-barang bekas layak pakai. Memperbaiki penggunaan aset dengan menawarkan produk-produk sebagai jasa.</p>
+                <p><strong>Recycle:</strong></p>
+                    <p>Menggunakan kembali material yang ada. Pencernaan anaerobik dan ekstraksi biokimia untuk limbah organik.</p>
+                <p><strong>Refurbish:</strong></p>
+                    <p>Memanufaktur ulang produk atau komponen. Daur hidup yang lebih panjang dengan adanya perawatan produk.</p>
+                <p><strong>Renew:</strong></p>
+                    <p>Memprioritaskan energi dan material terbarukan (seperti mengganti kemasan plastik dengan yang berbasis kertas).</p>
+                <h3>Peran KTH di DKI Jakarta dalam Mendukung Ekonomi Sirkular</h3>
+                <p>Kegiatan KTH dalam memproduksi komoditas hasil hutan bukan kayu erat kaitannya dengan penerapan konsep ekonomi eirkular. Beberapa produk KTH di DKI Jakarta yang menggunakan prinsip ekonomi sirkular antara lain Pembibitan Pohon, Pupuk Kompos, Kasgot, dan Ecoprint</p>
+                <p><strong>Pembibitan Pohon</strong></p>
+                    <p>Pohon-pohon yang berada di Kawasan Hutan dan Hutan Kota di kembangkan melalui penanaman biji atau stek/okulasi, KTH yang melakukan pembibitan pohon yakni KTH Flora Mangrove dalam pembibitan Pohon Mangrove dan KTH Karya Mandiri Bersama dalam pembibitan Pohon Alpukat.</p>
+                <p><strong>Ecoprint</strong></p>
+                    <p>Ecoprint merupakan seni mengolah kain dengan bahan-bahan tersedia seperti daun. Bahan produksi ecoprint didapat di Hutan Kota. Sisa daun tersebut dapat diolah kembali menjadi pupuk kompos KTH yang bergerak di kerajinan ecoprint adalah KTH KSB Lenteng Agung.</p>
+                <p><strong>Kargot</strong></p>
+                    <p>Kasgot merupakan pupuk dari sisa pencernaan yang dihasilkan oleh larva maggot Black Soldier Fly (Hermetia Illucens). Hasil pencernaan ini dimanfaatkan sebagai pupuk organik yang dapat meningkatkan kesuburan tanah atau media tanam. KTH yang mengembangkan Kasgot adalah KTH Rumah Kaum Jayakarta.</p>
+                <p><strong>Pupuk Kompos</strong></p>
+                    <p>Pupuk Kompos memanfaatkan serasah daun dan ranting kering di Hutan Kota. Sebagian KTH ada yang berinovasi mencampurkan daun kering dengan kotoran hewan untuk meningkatkan unsur hara. KTH yang mengembangkan pupuk kompos yakni KTH Srengseng Hijau Lestari dan KTH Kumbang.</p>
+                    <a href="/pages/tahukah.html" class="back-button">Kembali ke Tahukah Kamu?</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota DKI Jakarta</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.querySelector('.dot-spinner');
+            const mainWrapper = document.querySelector('.main-wrapper');
+
+            window.addEventListener('load', function() {
+                loader.style.display = 'flex';
+                setTimeout(function() {
+                    loader.style.opacity = '0';
+                    loader.style.transition = 'opacity 0.5s ease';
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                        mainWrapper.classList.add('loaded');
+                    }, 500);
+                }, 300);
+            });
+
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.hostname === window.location.hostname) {
+                        loader.style.display = 'flex';
+                        loader.style.opacity = '1';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

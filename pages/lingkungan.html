@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk Agroforestry KTH Jakarta</title>
+    <link rel="stylesheet" href="/css/lingkunganstyle.css">
+</head>
+<body>
+     <!-- Loader -->
+    <div class="dot-spinner">
+    <div class="dot-spinner__wrapper">
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+    </div>
+</div>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <img class="logo" src="/assets/image/kepala-dinas.png" alt="Logo" />
+                <div class="logo-text">
+                    <h1>Kelompok Tani Hutan Jakarta</h1>
+                    <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="banner">
+            <div class="banner-title">
+                <h2>Paket Jasa Lingkungan</h2>
+            </div>
+            <div class="banner-image"></div>
+        </div>
+        
+        <div class="products">
+            <div class="product-item">
+                <img class="product-image" src="/assets/image/pelatihan_ecoprint.jpg">
+                <div class="product-info">
+                    <h3 class="product-name">Pelatihan Ecoprint</h3>
+                    <p class="product-price">Rp 40.000</p>
+                    <p class="product-description">
+                        Pelatihan teknik cetak kain dengan metode ecoprint yakni dengan cara mencetak warna alam pada media berserat alam dengan beberapa teknik yang dikerjakan secara manual atau tidak melibatkan mesin dan juga tidak menggunakan cairan kimia yang berlebihan (ramah lingkungan).
+                        Harga sudah mencakup narasumber, peralatan, bahan, snack, dan karya hasil pelatihan.<br><br>
+                        KTH KSB Lenteng Agung<br>
+                        Heru : 081391230321 (WhatsApp)<br>
+                        Sarmili : 081218121122 (WhatsApp)<br>
+                        Instagram : https://www.instagram.com/ksb_lentengagung/
+                    </p>
+                </div>
+            </div>
+            
+            <div class="product-item">
+                <img class="product-image" src="/assets/image/penanaman_mangrove.jpg">
+                <div class="product-info">
+                    <h3 class="product-name">Penanaman Mangrove</h3>
+                    <p class="product-price">Rp 50.000</p>
+                    <p class="product-description">
+                        Ayo ikutan berkontribusi menghijaukan bumi dengan menanam mangrove di Kawasan Hutan Angke Kapuk.
+                        Paket penanaman termasuk bibit mangrove, peralatan, pendamping, retribusi masuk kawasan hutan, dan snack<br><br>
+                        KTH Flora Mangrove<br>
+                        Brili : 081314748740 (WhatsApp)<br>
+                        Juhana : 085282820977 (WhatsApp)<br>
+                    </p>
+                </div>
+            </div>
+            
+        
+        <a href="katalog.html" class="back-button">Kembali ke Katalog</a>
+    </div>
+    </div>
+
+    <!--footer-->
+    <footer>
+        <p>&copy; 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota DKI Jakarta</p>
+    </footer>
+
+    <!-- loader js -->
+     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Get the loader element
+    const loader = document.querySelector('.dot-spinner');
+    
+    // Hide the loader when the page is fully loaded
+    window.addEventListener('load', function() {
+        // First make sure the loader is visible during loading
+        loader.style.display = 'flex';
+        
+        // Add a small delay to make the transition smoother
+        setTimeout(function() {
+            // Add fade-out animation
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.5s ease';
+            
+            // After the animation completes, hide the loader completely
+            setTimeout(function() {
+                loader.style.display = 'none';
+                
+                // Show the main content
+                document.querySelector('.container').style.opacity = '1';
+            }, 500);
+        }, 300);
+    });
+    
+    // Show loader immediately when navigating to a new page
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Only show loader for internal links (not external)
+            if (this.hostname === window.location.hostname) {
+                loader.style.display = 'flex';
+                loader.style.opacity = '1';
+            }
+        });
+    });
+});
+     </script>
+
+     
+</body>
+</html>

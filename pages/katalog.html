@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk KTH Jakarta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        /* Variabel Warna */
+        :root {
+            --primary-color: rgb(0, 128, 85);
+            --secondary-color: #81C784;
+            --accent-color: #FFC107;
+            --dark-color:  #143416;
+            --light-color: #E8F5E9;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0; /* Initial state for animation */
+            transform: translateY(50px); /* Start below */
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; /* Smooth transition */
+        }
+
+        .main-wrapper.loaded {
+            opacity: 1; /* Final state */
+            transform: translateY(0); /* Slide to original position */
+        }
+
+        .container {
+            max-width: 100%;
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Header Styling - Sesuai dengan halaman home KTH */
+        header {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 10px 0;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-image: url('assets/images/logo_kth.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: bold;
+            color: var(--white);
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .banner {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            margin: 0 auto;
+            background-color: rgb(1, 97, 65);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .banner-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .banner-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 10px 40px;
+            text-align: center;
+            border: 1px solid #A5D6A7;
+            z-index: 10;
+            top: 35%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+        }
+        
+        .banner-title h2 {
+            margin: 0;
+            font-size: 40px;
+            color: rgb(0, 128, 85);
+        }
+        
+        .slogan {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 10px 40px;
+            text-align: center;
+            border: 1px solid #A5D6A7;
+            z-index: 10;
+            top: 75%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+            padding: 0 20px;
+            height: calc(50vh - 120px);
+            min-height: 300px;
+        }
+        
+        .category-card {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-size: cover; /* Make the background image cover the card */
+    background-position: center; /* Center the background image */
+    position: relative; /* Allow positioning of child elements */
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.category-image {
+    flex: 1;
+    position: absolute; /* Position it to fill the card */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(165,214,167,0.2) 0%, rgba(46,125,50,0.2) 100%); /* Keep the gradient overlay */
+    z-index: 1; /* Place it below the title */
+}
+
+.category-title {
+    padding: 20px 15px;
+    text-align: center;
+    background-color: rgba(0, 128, 85, 0.9); /* Slightly transparent for better contrast */
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative; /* Ensure it stays above the image */
+    z-index: 2; /* Place it above the image and overlay */
+    margin-top: auto; /* Push it to the bottom of the card */
+}
+
+.category-card a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+        
+        .back-button {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: rgb(0, 128, 85);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            width: fit-content; /* Make button width fit its content */
+            align-self: center; /* Center the button */
+        }
+        
+        .back-button:hover {
+            background-color: #45a049;
+        }
+        
+        footer {
+            background-color: #143416;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dot-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 10000;
+}
+.dot-spinner__wrapper {
+    display: flex;
+    gap: 8px;
+}
+.dot-spinner__dot {
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+}
+.dot-spinner__dot:nth-child(2) { animation-delay: 0.1s; }
+.dot-spinner__dot:nth-child(3) { animation-delay: 0.2s; }
+.dot-spinner__dot:nth-child(4) { animation-delay: 0.3s; }
+.dot-spinner__dot:nth-child(5) { animation-delay: 0.4s; }
+.dot-spinner__dot:nth-child(6) { animation-delay: 0.5s; }
+.dot-spinner__dot:nth-child(7) { animation-delay: 0.6s; }
+.dot-spinner__dot:nth-child(8) { animation-delay: 0.7s; }
+@keyframes bounce {
+    to { transform: translateY(-10px); }
+}
+        
+        @media (max-width: 1200px) {
+            .categories {
+                grid-template-columns: repeat(4, 1fr);
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .banner-title {
+                width: 60%;
+            }
+            .category-image {
+                height: 160px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .banner-title {
+                width: 80%;
+                top: 20px;
+            }
+            .slogan {
+                width: 90%;
+                bottom: 20px;
+                font-size: 16px;
+            }
+            .logo-text h1 {
+                font-size: 18px;
+            }
+            .logo-text span {
+                font-size: 14px;
+            }
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            .header-container {
+                padding: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo-section {
+                justify-content: center;
+                text-align: center;
+            }
+            .logo-text {
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .logo {
+                margin: 0 auto 5px;
+            }
+            .header-container {
+                flex-direction: column;
+                padding: 10px 5px;
+            }
+            .banner-title h2 {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .categories {
+                grid-template-columns: 1fr;
+            }
+            .banner {
+                height: 180px;
+            }
+            .banner-title h2 {
+                font-size: 20px;
+            }
+            .header-container {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dot-spinner">
+        <div class="dot-spinner__wrapper">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img class="logo" src="/assets/image/kepala-dinas.png" alt="Logo" />
+                    </div>
+                    <div class="logo-text">
+                        <h1>Kelompok Tani Hutan Jakarta</h1>
+                        <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="banner">
+                <div class="banner-image"></div>
+                <div class="banner-title">
+                    <h2>Katalog Produk KTH Jakarta</h2>
+                </div>
+                <div class="banner-image"></div>
+                <div class="slogan">
+                    Warung KTH – KTH Mandiri, Hutan Lestari – Suskes Jakarta untuk Indonesia
+                </div>
+            </div>
+            
+            <div class="categories">
+    <div class="category-card" style="background-image: url('/assets/image/agro_logo.jpg');">
+        <a href="/pages/agroforestry.html">
+            <div class="category-image"></div>
+            <div class="category-title">Agroforestry</div>
+        </a>
+    </div>
+    
+    <div class="category-card" style="background-image: url('/assets/image/makanan_logo.png');">
+        <a href="/pages/makanan.html">
+            <div class="category-image"></div>
+            <div class="category-title">Makanan & Minuman</div>
+        </a>
+    </div>
+    
+    <div class="category-card" style="background-image: url('/assets/image/kerajinan_logo.png');">
+        <a href="/pages/kerajinan.html">
+            <div class="category-image"></div>
+            <div class="category-title">Kerajinan Tangan</div>
+        </a>
+    </div>
+    
+    <div class="category-card" style="background-image: url('/assets/image/lingkungan_logo.png');">
+        <a href="/pages/lingkungan.html">
+            <div class="category-image"></div>
+            <div class="category-title">Paket Jasa Lingkungan</div>
+        </a>
+    </div>
+</div>
+            
+            <a href="/index.html" class="back-button">Kembali ke Halaman Utama</a>
+        </div>
+
+        <footer>
+            <p>© 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota DKI Jakarta</p>
+        </footer>
+    </div>
+
+    <!-- loader js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the loader and main wrapper elements
+            const loader = document.querySelector('.dot-spinner');
+            const mainWrapper = document.querySelector('.main-wrapper');
+            
+            // Hide the loader when the page is fully loaded
+            window.addEventListener('load', function() {
+                // First make sure the loader is visible during loading
+                loader.style.display = 'flex';
+                
+                // Add a small delay to make the transition smoother
+                setTimeout(function() {
+                    // Add fade-out animation for loader
+                    loader.style.opacity = '0';
+                    loader.style.transition = 'opacity 0.5s ease';
+                    
+                    // After the loader fades out, hide it and trigger slide-up animation
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                        
+                        // Trigger the slide-up animation by adding the 'loaded' class
+                        mainWrapper.classList.add('loaded');
+                    }, 500);
+                }, 300);
+            });
+            
+            // Show loader immediately when navigating to a new page
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Only show loader for internal links (not external)
+                    if (this.hostname === window.location.hostname) {
+                        loader.style.display = 'flex';
+                        loader.style.opacity = '1';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

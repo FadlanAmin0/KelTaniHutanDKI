@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minigame: Cocokkan Gambar - KTH Jakarta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: rgb(0, 100, 0); /* Dark green for title and borders */
+            --light-gray: #e0e0e0; /* Light gray for items */
+            --dark-gray: #4a4a4a; /* Dark gray for shadows */
+            --light-green: #e8f5e9; /* Light green background */
+            --white: #FFFFFF;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: var(--light-green);
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .main-wrapper.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 100%;
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #143416;
+            color: #FFFFFF;
+            padding: 10px 0;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-image: url('assets/images/logo_kth.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+
+        .logo-text span {
+            font-size: 0.8rem;
+            color: #81C784;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #FFC107;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--light-green);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .items, .shadows {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .item, .shadow {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            border: 4px solid var(--primary-color);
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .item {
+            background-color: var(--light-gray);
+        }
+
+        .shadow {
+            background-color: transparent;
+            background-image: linear-gradient(rgba(74, 74, 74, 0.9), rgba(74, 74, 74, 0.9)), url('');
+        }
+
+        .line {
+            position: absolute;
+            background-color: var(--primary-color);
+            height: 4px;
+            transform-origin: 0 0;
+            pointer-events: none;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+        }
+
+        .reset-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .reset-button:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: rgb(0, 128, 85);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            width: fit-content;
+            align-self: center;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        .audio-controls {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .mute-button {
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .mute-button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #143416;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dot-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 10000;
+        }
+
+        .dot-spinner__wrapper {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-spinner__dot {
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .dot-spinner__dot:nth-child(2) { animation-delay: 0.1s; }
+        .dot-spinner__dot:nth-child(3) { animation-delay: 0.2s; }
+        .dot-spinner__dot:nth-child(4) { animation-delay: 0.3s; }
+        .dot-spinner__dot:nth-child(5) { animation-delay: 0.4s; }
+        .dot-spinner__dot:nth-child(6) { animation-delay: 0.5s; }
+        .dot-spinner__dot:nth-child(7) { animation-delay: 0.6s; }
+        .dot-spinner__dot:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes bounce {
+            to { transform: translateY(-10px); }
+        }
+
+        /* Memory Game Styles */
+        .memory-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--light-green);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 120px);
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .memory-card {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-color);
+            background-color: var(--light-gray);
+            cursor: pointer;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card-front, .memory-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+        }
+
+        .memory-card-front {
+            background-color: var(--primary-color);
+        }
+
+        .memory-card-back {
+            background-size: cover;
+            background-position: center;
+            transform: rotateY(180deg);
+        }
+
+        .memory-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--dark-gray);
+        }
+
+        @media (max-width: 768px) {
+            .game-container, .memory-game-container {
+                width: 100%;
+                padding: 10px;
+            }
+            .items, .shadows {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .item, .shadow {
+                width: 120px;
+                height: 120px;
+            }
+            .memory-grid {
+                grid-template-columns: repeat(4, 90px);
+            }
+            .memory-card {
+                width: 90px;
+                height: 90px;
+            }
+            .logo-text h1 {
+                font-size: 1rem;
+            }
+            .logo-text span {
+                font-size: 0.7rem;
+            }
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+            .nav-menu {
+                gap: 10px;
+            }
+            .nav-menu a {
+                font-size: 0.9rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .mute-button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 10px 5px;
+            }
+            .logo-section {
+                justify-content: center;
+                text-align: center;
+            }
+            .logo-text {
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
+            .nav-menu {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 10px;
+            }
+            .item, .shadow {
+                width: 100px;
+                height: 100px;
+            }
+            .memory-grid {
+                grid-template-columns: repeat(4, 70px);
+            }
+            .memory-card {
+                width: 70px;
+                height: 70px;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .mute-button {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dot-spinner">
+        <div class="dot-spinner__wrapper">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
+    </div>
+
+    <div class="main-wrapper">
+        <header>
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img class="logo" src="/assets/image/kepala-dinas.png" alt="Logo" />
+                    </div>
+                    <div class="logo-text">
+                        <h1>Kelompok Tani Hutan Jakarta</h1>
+                        <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="audio-controls">
+                <button class="mute-button">Mute</button>
+            </div>
+            <h2>Cocokkan Gambar dengan Bayangannya</h2>
+            <div class="game-container">
+                <div class="items"></div>
+                <div class="shadows"></div>
+            </div>
+            <div class="message"></div>
+            <button class="reset-button" style="display: none;">Main Lagi</button>
+
+            <h2>Permainan Kartu Memori</h2>
+            <div class="memory-game-container">
+                <div class="memory-grid"></div>
+                <div class="memory-message"></div>
+                <button class="reset-button memory-reset-button" style="display: none;">Main Lagi</button>
+            </div>
+
+            <a href="/index.html" class="back-button">Kembali ke Halaman Utama</a>
+        </div>
+
+        <footer>
+            <p>© 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota DKI Jakarta</p>
+        </footer>
+
+        <audio id="background-audio" loop>
+            <source src="audio/slow_motion.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loader = document.querySelector('.dot-spinner');
+            const mainWrapper = document.querySelector('.main-wrapper');
+            const itemsContainer = document.querySelector('.items');
+            const shadowsContainer = document.querySelector('.shadows');
+            const message = document.querySelector('.message');
+            const resetButton = document.querySelector('.reset-button:not(.memory-reset-button)');
+            const canvas = document.createElement('canvas');
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.pointerEvents = 'none';
+            document.querySelector('.game-container').appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            const audio = document.getElementById('background-audio');
+            const muteButton = document.querySelector('.mute-button');
+
+            const memoryGrid = document.querySelector('.memory-grid');
+            const memoryMessage = document.querySelector('.memory-message');
+            const memoryResetButton = document.querySelector('.memory-reset-button');
+
+            const itemsData = [
+                { id: 1, name: 'Pohon', image: 'https://i.pinimg.com/736x/16/46/56/1646568cc5fa7efeac4ca649aeb7e611.jpg' },
+                { id: 2, name: 'Apel', image: 'https://i.pinimg.com/736x/de/e9/c6/dee9c65cb2e0831b7a1bde8dece0c1f3.jpg' },
+                { id: 3, name: 'Lebah', image: 'https://i.pinimg.com/736x/87/bc/9f/87bc9f2196baf878be4798ca4c0015b9.jpg' },
+                { id: 4, name: 'Ikan', image: 'https://i.pinimg.com/736x/86/99/91/8699916f1758c73ab8fe3616534aba01.jpg' },
+                { id: 5, name: 'Bunga', image: 'https://i.pinimg.com/736x/71/5e/33/715e33b42809d7f58348cf4ef1bf2382.jpg' },
+                { id: 6, name: 'Keranjang', image: 'https://i.pinimg.com/736x/a9/33/c3/a933c3727090c5d01fa4acd1fcb4c55f.jpg' }
+            ];
+
+            let matches = [];
+            let currentItem = null;
+            let correctMatches = 0;
+            let isMuted = false;
+
+            let memoryCards = [];
+            let flippedCards = [];
+            let matchedPairs = 0;
+            let lockBoard = false;
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = document.querySelector('.game-container').offsetHeight;
+            }
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            function initGame() {
+                itemsContainer.innerHTML = '';
+                shadowsContainer.innerHTML = '';
+                matches = [];
+                correctMatches = 0;
+                message.textContent = '';
+                resetButton.style.display = 'none';
+                const shuffledItems = shuffle([...itemsData]);
+                const shuffledShadows = shuffle([...itemsData]);
+
+                shuffledItems.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'item';
+                    div.style.backgroundImage = `url(${item.image})`;
+                    div.dataset.id = item.id;
+                    div.addEventListener('mousedown', () => startDrag(div));
+                    itemsContainer.appendChild(div);
+                });
+
+                shuffledShadows.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'shadow';
+                    div.style.backgroundImage = `linear-gradient(rgba(74, 74, 74, 0.9), rgba(74, 74, 74, 0.9)), url(${item.image})`;
+                    div.dataset.id = item.id;
+                    div.addEventListener('mouseup', () => endDrag(div));
+                    shadowsContainer.appendChild(div);
+                });
+
+                resizeCanvas();
+            }
+
+            function startDrag(item) {
+                currentItem = item;
+                document.addEventListener('mousemove', drawLine);
+            }
+
+            function drawLine(e) {
+                if (!currentItem) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                matches.forEach(match => {
+                    const item = document.querySelector(`.item[data-id="${match.item}"]`);
+                    const shadow = document.querySelector(`.shadow[data-id="${match.shadow}"]`);
+                    drawLineBetween(item, shadow);
+                });
+
+                const rect = currentItem.getBoundingClientRect();
+                const startX = rect.left + rect.width / 2;
+                const startY = rect.top + rect.height / 2;
+                const endX = e.clientX;
+                const endY = e.clientY;
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = 'rgb(0, 100, 0)';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+            }
+
+            function drawLineBetween(item, shadow) {
+                const itemRect = item.getBoundingClientRect();
+                const shadowRect = shadow.getBoundingClientRect();
+                const startX = itemRect.left + itemRect.width / 2;
+                const startY = itemRect.top + itemRect.height / 2;
+                const endX = shadowRect.left + shadowRect.width / 2;
+                const endY = shadowRect.top + shadowRect.height / 2;
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.strokeStyle = 'rgb(0, 100, 0)';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+            }
+
+            function endDrag(shadow) {
+                if (!currentItem) return;
+                const itemId = currentItem.dataset.id;
+                const shadowId = shadow.dataset.id;
+
+                if (itemId === shadowId) {
+                    matches.push({ item: itemId, shadow: shadowId });
+                    currentItem.style.opacity = '0.5';
+                    shadow.style.opacity = '0.5';
+                    currentItem.style.pointerEvents = 'none';
+                    shadow.style.pointerEvents = 'none';
+                    correctMatches++;
+                    if (correctMatches === itemsData.length) {
+                        message.textContent = 'Selamat! Semua pasangan cocok!';
+                        resetButton.style.display = 'block';
+                    }
+                } else {
+                    message.textContent = 'Coba lagi, pasangan tidak cocok!';
+                    setTimeout(() => message.textContent = '', 2000);
+                }
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                matches.forEach(match => {
+                    const item = document.querySelector(`.item[data-id="${match.item}"]`);
+                    const shadow = document.querySelector(`.shadow[data-id="${match.shadow}"]`);
+                    drawLineBetween(item, shadow);
+                });
+                currentItem = null;
+                document.removeEventListener('mousemove', drawLine);
+            }
+
+            function initMemoryGame() {
+                memoryGrid.innerHTML = '';
+                memoryMessage.textContent = '';
+                memoryResetButton.style.display = 'none';
+                memoryCards = [];
+                flippedCards = [];
+                matchedPairs = 0;
+                lockBoard = false;
+
+                const memoryItems = [...itemsData, ...itemsData]; // Duplicate for pairs
+                const shuffledMemoryItems = shuffle(memoryItems);
+
+                shuffledMemoryItems.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.id = item.id;
+                    card.innerHTML = `
+                        <div class="memory-card-front"></div>
+                        <div class="memory-card-back" style="background-image: url(${item.image});"></div>
+                    `;
+                    card.addEventListener('click', () => flipCard(card));
+                    memoryGrid.appendChild(card);
+                    memoryCards.push(card);
+                });
+            }
+
+            function flipCard(card) {
+                if (lockBoard || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+                card.classList.add('flipped');
+                flippedCards.push(card);
+
+                if (flippedCards.length === 2) {
+                    lockBoard = true;
+                    checkForMatch();
+                }
+            }
+
+            function checkForMatch() {
+                const [card1, card2] = flippedCards;
+                if (card1.dataset.id === card2.dataset.id) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    card1.style.pointerEvents = 'none';
+                    card2.style.pointerEvents = 'none';
+                    matchedPairs++;
+                    if (matchedPairs === itemsData.length) {
+                        memoryMessage.textContent = 'Selamat! Anda menemukan semua pasangan!';
+                        memoryResetButton.style.display = 'block';
+                    }
+                    flippedCards = [];
+                    lockBoard = false;
+                } else {
+                    memoryMessage.textContent = 'Tidak cocok, coba lagi!';
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        memoryMessage.textContent = '';
+                        flippedCards = [];
+                        lockBoard = false;
+                    }, 1000);
+                }
+            }
+
+            window.addEventListener('mouseup', () => {
+                if (currentItem) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    matches.forEach(match => {
+                        const item = document.querySelector(`.item[data-id="${match.item}"]`);
+                        const shadow = document.querySelector(`.shadow[data-id="${match.shadow}"]`);
+                        drawLineBetween(item, shadow);
+                    });
+                    currentItem = null;
+                    document.removeEventListener('mousemove', drawLine);
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                matches.forEach(match => {
+                    const item = document.querySelector(`.item[data-id="${match.item}"]`);
+                    const shadow = document.querySelector(`.shadow[data-id="${match.shadow}"]`);
+                    drawLineBetween(item, shadow);
+                });
+            });
+
+            resetButton.addEventListener('click', initGame);
+            memoryResetButton.addEventListener('click', initMemoryGame);
+
+            // Audio control
+            audio.play().catch(error => console.log("Autoplay blocked:", error));
+            muteButton.addEventListener('click', () => {
+                if (isMuted) {
+                    audio.play();
+                    muteButton.textContent = 'Mute';
+                    isMuted = false;
+                } else {
+                    audio.pause();
+                    muteButton.textContent = 'Unmute';
+                    isMuted = true;
+                }
+            });
+
+            window.addEventListener('load', function() {
+                loader.style.display = 'flex';
+                setTimeout(function() {
+                    loader.style.opacity = '0';
+                    loader.style.transition = 'opacity 0.5s ease';
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                        mainWrapper.classList.add('loaded');
+                    }, 500);
+                }, 300);
+            });
+
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.hostname === window.location.hostname) {
+                        loader.style.display = 'flex';
+                        loader.style.opacity = '1';
+                    }
+                });
+            });
+
+            initGame();
+            initMemoryGame();
+        });
+    </script>
+</body>
+</html>
