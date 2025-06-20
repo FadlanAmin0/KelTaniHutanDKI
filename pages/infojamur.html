@@ -1,375 +1,446 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manfaat Buah Mangga - KTH Jakarta</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        box-sizing: border-box;
+      }
 
-        :root {
-            --primary-color: rgb(0, 128, 85);
-            --secondary-color: #81C784;
-            --accent-color: #FFC107;
-            --dark-color: #143416;
-            --light-color: #E8F5E9;
-            --white: #FFFFFF;
-            --text-dark: #333333;
-        }
+      :root {
+        --primary-color: rgb(0, 128, 85);
+        --secondary-color: #81c784;
+        --accent-color: #ffc107;
+        --dark-color: #143416;
+        --light-color: #e8f5e9;
+        --white: #ffffff;
+        --text-dark: #333333;
+      }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            background-color: #f5f5f5;
-        }
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        background-color: #f5f5f5;
+      }
 
-        .main-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-        }
+      .main-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      }
 
-        .main-wrapper.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
+      .main-wrapper.loaded {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-        .container {
-            max-width: 100%;
-            flex: 1;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      .container {
+        max-width: 100%;
+        flex: 1;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        header {
-            background-color: var(--dark-color);
-            color: var(--white);
-            padding: 10px 0;
-            width: 100%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+      header {
+        background-color: var(--dark-color);
+        color: var(--white);
+        padding: 10px 0;
+        width: 100%;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
 
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+      .logo-section {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
 
-        .logo {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            border-radius: 5px;
-            background-image: url('assets/images/logo_kth.png');
-            background-size: cover;
-            background-position: center;
-        }
+      .logo {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        border-radius: 5px;
+        background-image: url("assets/images/logo_kth.png");
+        background-size: cover;
+        background-position: center;
+      }
 
-        .logo-text h1 {
-            font-size: 1.2rem;
-            margin: 0;
-            font-weight: bold;
-            color: var(--white);
-        }
+      .logo-text h1 {
+        font-size: 1.2rem;
+        margin: 0;
+        font-weight: bold;
+        color: var(--white);
+      }
 
-        .logo-text span {
-            font-size: 0.8rem;
-            color: var(--secondary-color);
-        }
+      .logo-text span {
+        font-size: 0.8rem;
+        color: var(--secondary-color);
+      }
 
-        .content ul {
-    padding-left: 320px;
-    width: 1250px;
-}
+      .content ul {
+        padding-left: 320px;
+        width: 1250px;
+      }
 
-        .content {
-            width: 100%;
-            padding: 40px 20px;
-            background-color: var(--light-color);
-            border-radius: 0;
-            box-shadow: none;
-        }
+      .content {
+        width: 100%;
+        padding: 40px 20px;
+        background-color: var(--light-color);
+        border-radius: 0;
+        box-shadow: none;
+      }
 
-        .content h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
+      .content h1 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2rem;
+      }
 
-        .content h3 {
-    color: #226b24;
-    margin-top: 20px;
-    font-size: 23px;
-    text-align: center;
-}
+      .content h3 {
+        color: #226b24;
+        margin-top: 20px;
+        font-size: 23px;
+        text-align: center;
+      }
 
-        .content img {
-            width: 500px;
-            height: 250px;
-            border-radius: 10px;
-            margin: 0 auto 20px;
-            display: block;
-            border: 2px solid var(--primary-color);
-            object-fit: cover;
-            object-position: center;
-        }
-
+      /* Penjelasan dan gambar rata tengah & responsive */
+      .content p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--text-dark);
+        text-align: center;
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto 18px auto;
+        box-sizing: border-box;
+      }
+      .content img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: 10px;
+        margin: 0 auto 20px;
+        display: block;
+        border: 2px solid var(--primary-color);
+        object-fit: cover;
+        object-position: center;
+      }
+      @media (max-width: 768px) {
         .content p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-dark);
-            text-align: justify;
-            width: 1250px;
-            margin: 0 auto;
-            text-align: center;
+          font-size: 14px;
+          max-width: 100%;
+          margin: 0 auto 14px auto;
+          text-align: center;
         }
-
-        .back-button {
-            display: block;
-            margin: 20px;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: var(--white);
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            width: fit-content;
-            text-align: center;
+        .content img {
+          max-width: 100%;
+          height: auto;
         }
-
-        .back-button:hover {
-            background-color: #45a049;
+      }
+      @media (max-width: 480px) {
+        .content p {
+          font-size: 13px;
+          text-align: center;
         }
+      }
 
-        footer {
-            background-color: var(--dark-color);
-            color: var(--white);
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
+      .back-button {
+        display: block;
+        margin: 20px;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        width: fit-content;
+        text-align: center;
+      }
+
+      .back-button:hover {
+        background-color: #45a049;
+      }
+
+      footer {
+        background-color: var(--dark-color);
+        color: var(--white);
+        text-align: center;
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .dot-spinner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        z-index: 10000;
+      }
+
+      .dot-spinner__wrapper {
+        display: flex;
+        gap: 8px;
+      }
+
+      .dot-spinner__dot {
+        width: 12px;
+        height: 12px;
+        background: #333;
+        border-radius: 50%;
+        animation: bounce 0.6s infinite alternate;
+      }
+
+      .dot-spinner__dot:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .dot-spinner__dot:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+      .dot-spinner__dot:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+      .dot-spinner__dot:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+      .dot-spinner__dot:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+      .dot-spinner__dot:nth-child(7) {
+        animation-delay: 0.6s;
+      }
+      .dot-spinner__dot:nth-child(8) {
+        animation-delay: 0.7s;
+      }
+
+      @keyframes bounce {
+        to {
+          transform: translateY(-10px);
         }
+      }
 
-        .dot-spinner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            z-index: 10000;
+      @media (max-width: 768px) {
+        .logo-text h1 {
+          font-size: 18px;
         }
-
-        .dot-spinner__wrapper {
-            display: flex;
-            gap: 8px;
+        .logo-text span {
+          font-size: 14px;
         }
-
-        .dot-spinner__dot {
-            width: 12px;
-            height: 12px;
-            background: #333;
-            border-radius: 50%;
-            animation: bounce 0.6s infinite alternate;
+        .logo {
+          width: 40px;
+          height: 40px;
         }
-
-        .dot-spinner__dot:nth-child(2) { animation-delay: 0.1s; }
-        .dot-spinner__dot:nth-child(3) { animation-delay: 0.2s; }
-        .dot-spinner__dot:nth-child(4) { animation-delay: 0.3s; }
-        .dot-spinner__dot:nth-child(5) { animation-delay: 0.4s; }
-        .dot-spinner__dot:nth-child(6) { animation-delay: 0.5s; }
-        .dot-spinner__dot:nth-child(7) { animation-delay: 0.6s; }
-        .dot-spinner__dot:nth-child(8) { animation-delay: 0.7s; }
-
-        @keyframes bounce {
-            to { transform: translateY(-10px); }
+        .header-container {
+          padding: 10px;
         }
-
-        @media (max-width: 768px) {
-            .logo-text h1 {
-                font-size: 18px;
-            }
-            .logo-text span {
-                font-size: 14px;
-            }
-            .logo {
-                width: 40px;
-                height: 40px;
-            }
-            .header-container {
-                padding: 10px;
-            }
-            .content {
-                padding: 20px 10px;
-            }
-            .content h1 {
-                font-size: 1.5rem;
-            }
-            .content p {
-                font-size: 14px;
-            }
-            .content img {
-                max-width: 400px;
-            }
+        .content {
+          padding: 20px 10px;
         }
-
-        @media (max-width: 576px) {
-            .header-container {
-                flex-direction: column;
-                padding: 10px 5px;
-            }
-            .logo-section {
-                justify-content: center;
-                text-align: center;
-            }
-            .logo-text {
-                width: 100%;
-                text-align: center;
-                margin-top: 5px;
-            }
-            .logo {
-                margin: 0 auto 5px;
-            }
-            .nav-menu {
-                flex-direction: column;
-                align-items: center;
-                margin-top: 10px;
-            }
-            .content img {
-                max-width: 300px;
-            }
+        .content h1 {
+          font-size: 1.5rem;
         }
+        .content p {
+          font-size: 14px;
+        }
+        .content img {
+          max-width: 400px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .header-container {
+          flex-direction: column;
+          padding: 10px 5px;
+        }
+        .logo-section {
+          justify-content: center;
+          text-align: center;
+        }
+        .logo-text {
+          width: 100%;
+          text-align: center;
+          margin-top: 5px;
+        }
+        .logo {
+          margin: 0 auto 5px;
+        }
+        .nav-menu {
+          flex-direction: column;
+          align-items: center;
+          margin-top: 10px;
+        }
+        .content img {
+          max-width: 300px;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="dot-spinner">
-        <div class="dot-spinner__wrapper">
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-            <div class="dot-spinner__dot"></div>
-        </div>
+      <div class="dot-spinner__wrapper">
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+        <div class="dot-spinner__dot"></div>
+      </div>
     </div>
 
     <div class="main-wrapper">
-        <header>
-            <div class="header-container">
-                <div class="logo-section">
-                    <div class="logo">
-                        <img class="logo" src="/assets/image/kepala-dinas.png" alt="Logo" />
-                    </div>
-                    <div class="logo-text">
-                        <h1>Kelompok Tani Hutan Jakarta</h1>
-                        <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
-                    </div>
-                </div>
+      <header>
+        <div class="header-container">
+          <div class="logo-section">
+            <div class="logo">
+              <img
+                class="logo"
+                src="/assets/image/kepala-dinas.png"
+                alt="Logo"
+              />
             </div>
-        </header>
-
-        <div class="container">
-            <div class="content">
-                <h1>Pengolahan Jamur Tiram</h1>
-                <img src="https://i.pinimg.com/736x/f4/57/2f/f4572f4c337e8a54abe71aec075da2c8.jpg" alt="Buah Mangga">
-                <h3>Apa itu Jamur?</h3>
-                <p>Jamur merupakan tumbuhan yang hidup bebas di alam liar, tidak semua jamur yang tumbuh liar bisa di masak, karena hanya beberapa jenis jamur saja yang bisa diolah sebagai makanan. Saat ini kita tidak sulit lagi mendapatkan jamur yang bisa diolah dan dikonsumsi. Karena sudah banyak yang membudidayakannya, salah satunya jamur tiram.
-                </p>
-                <h3>Produk Jamur Tiram</h3>
-                <p><strong>Jamur Crispy</strong></p>
-                <p>1. Jamur disiangi, lalu cuci dan tiriskan</p>
-                <p>2. Sisihkan, lalu jamur di suir-suir menurut selera.</p>
-                <p>3. Aduk tepung bersama kaldu jamur sampai rata.</p>
-                <p>4. Ambil jamur, tepung yang sudah dicampur kaldu jamur, sampai jamurnya berlumuri tepung.</p>
-                <p>5. Panaskan minyak goreng sampai panas.</p>
-                <p>6. Masukan jamur yang sudah ditepungi secukupnya kedalam minyak panas, akai api sedang saja.</p>
-                <p>7. Goreng sampai kecoklatan dan kering.</p>
-                <p>8. Angkat dan tiriskan</p><br>
-                <p><strong>Kerupuk Jamur</strong></p>
-                <p>1. Bersihkan Jamur dan blender</p>
-                <p>2. Haluskan Bumbu</p>
-                <p>3. Campurkan Jamur, Tepung, dan Bumbu, aduk rata sampai kalis</p>
-                <p>4. Bentuk menurut selera lalu rebus/kukus sampai matang </p>
-                <p>5. Dinginkan, lalu masukkan ke kulkas sampai kemudian iris tipis mengeras</p>
-                <p>6. Jemur sampai kering lalu goreng</p>
-                <p>7. Siap disajikan</p><br>
-                <p><strong>Kaldu Jamur</strong></p>
-                <p>1. Siangi Jamur, jemur sampai kering</p>
-                <p>2. Bahan yang lainnya juga sama dijemur sampai kering</p>
-                <p>3. Ketika sudah kering lalu di oven sampai benar-benar kering tapi jangan sampai gosong</p>
-                <p>4. Giling bahan-bahan diatas seperti tepung</p>
-                <p>5. Campurkan semua bahan yang sudah dibuat seperti tepung/giling tersebut</p>
-                <p>6. Aduk sampai rata</p>
-                <p>Kaldu jamur siap dipakai</p>
-
-                <a href="/pages/tahukah.html" class="back-button">Kembali ke Tahukah Kamu?</a>
+            <div class="logo-text">
+              <h1>Kelompok Tani Hutan Jakarta</h1>
+              <span>Dinas Pertamanan dan Hutan Kota DKI Jakarta</span>
             </div>
+          </div>
         </div>
+      </header>
 
-        <footer>
-            <p>© 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota DKI Jakarta</p>
-        </footer>
+      <div class="container">
+        <div class="content">
+          <h1>Pengolahan Jamur Tiram</h1>
+          <img
+            src="https://i.pinimg.com/736x/f4/57/2f/f4572f4c337e8a54abe71aec075da2c8.jpg"
+            alt="Buah Mangga"
+          />
+          <h3>Apa itu Jamur?</h3>
+          <p>
+            Jamur merupakan tumbuhan yang hidup bebas di alam liar, tidak semua
+            jamur yang tumbuh liar bisa di masak, karena hanya beberapa jenis
+            jamur saja yang bisa diolah sebagai makanan. Saat ini kita tidak
+            sulit lagi mendapatkan jamur yang bisa diolah dan dikonsumsi. Karena
+            sudah banyak yang membudidayakannya, salah satunya jamur tiram.
+          </p>
+          <h3>Produk Jamur Tiram</h3>
+          <p><strong>Jamur Crispy</strong></p>
+          <p>1. Jamur disiangi, lalu cuci dan tiriskan</p>
+          <p>2. Sisihkan, lalu jamur di suir-suir menurut selera.</p>
+          <p>3. Aduk tepung bersama kaldu jamur sampai rata.</p>
+          <p>
+            4. Ambil jamur, tepung yang sudah dicampur kaldu jamur, sampai
+            jamurnya berlumuri tepung.
+          </p>
+          <p>5. Panaskan minyak goreng sampai panas.</p>
+          <p>
+            6. Masukan jamur yang sudah ditepungi secukupnya kedalam minyak
+            panas, akai api sedang saja.
+          </p>
+          <p>7. Goreng sampai kecoklatan dan kering.</p>
+          <p>8. Angkat dan tiriskan</p>
+          <br />
+          <p><strong>Kerupuk Jamur</strong></p>
+          <p>1. Bersihkan Jamur dan blender</p>
+          <p>2. Haluskan Bumbu</p>
+          <p>3. Campurkan Jamur, Tepung, dan Bumbu, aduk rata sampai kalis</p>
+          <p>4. Bentuk menurut selera lalu rebus/kukus sampai matang</p>
+          <p>
+            5. Dinginkan, lalu masukkan ke kulkas sampai kemudian iris tipis
+            mengeras
+          </p>
+          <p>6. Jemur sampai kering lalu goreng</p>
+          <p>7. Siap disajikan</p>
+          <br />
+          <p><strong>Kaldu Jamur</strong></p>
+          <p>1. Siangi Jamur, jemur sampai kering</p>
+          <p>2. Bahan yang lainnya juga sama dijemur sampai kering</p>
+          <p>
+            3. Ketika sudah kering lalu di oven sampai benar-benar kering tapi
+            jangan sampai gosong
+          </p>
+          <p>4. Giling bahan-bahan diatas seperti tepung</p>
+          <p>
+            5. Campurkan semua bahan yang sudah dibuat seperti tepung/giling
+            tersebut
+          </p>
+          <p>6. Aduk sampai rata</p>
+          <p>Kaldu jamur siap dipakai</p>
+
+          <a href="/pages/tahukah.html" class="back-button"
+            >Kembali ke Tahukah Kamu?</a
+          >
+        </div>
+      </div>
+
+      <footer>
+        <p>
+          © 2025 Kelompok Tani Hutan Jakarta | Dinas Pertamanan dan Hutan Kota
+          DKI Jakarta
+        </p>
+      </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loader = document.querySelector('.dot-spinner');
-            const mainWrapper = document.querySelector('.main-wrapper');
+      document.addEventListener("DOMContentLoaded", function () {
+        const loader = document.querySelector(".dot-spinner");
+        const mainWrapper = document.querySelector(".main-wrapper");
 
-            window.addEventListener('load', function() {
-                loader.style.display = 'flex';
-                setTimeout(function() {
-                    loader.style.opacity = '0';
-                    loader.style.transition = 'opacity 0.5s ease';
-                    setTimeout(function() {
-                        loader.style.display = 'none';
-                        mainWrapper.classList.add('loaded');
-                    }, 500);
-                }, 300);
-            });
-
-            document.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (this.hostname === window.location.hostname) {
-                        loader.style.display = 'flex';
-                        loader.style.opacity = '1';
-                    }
-                });
-            });
+        window.addEventListener("load", function () {
+          loader.style.display = "flex";
+          setTimeout(function () {
+            loader.style.opacity = "0";
+            loader.style.transition = "opacity 0.5s ease";
+            setTimeout(function () {
+              loader.style.display = "none";
+              mainWrapper.classList.add("loaded");
+            }, 500);
+          }, 300);
         });
+
+        document.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            if (this.hostname === window.location.hostname) {
+              loader.style.display = "flex";
+              loader.style.opacity = "1";
+            }
+          });
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
